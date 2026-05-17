@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NailMaster | Мастер ногтевого сервиса</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-container">
+        <div class="logo"><a href="#">💅 NailMaster</a></div>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#prices">Цены</a></li>
+                <li><a href="#about">О мастере</a></li>
+                <li><a href="#portfolio">Портфолио</a></li>
+                <li><a href="#blog">Акции</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </nav>
+    </div>
+</header>
+
+<section id="home" class="hero">
+    <div class="container hero-content">
+        <h1>Идеальный маникюр для вас</h1>
+        <p>Авторский дизайн, качественные материалы, стерильность и уют</p>
+        <div class="hero-buttons">
+            <a href="#booking" class="btn btn-primary">📅 Записаться онлайн</a>
+            <a href="#portfolio" class="btn btn-outline">✨ Смотреть работы</a>
+        </div>
+        <div class="hero-badge">🔥 Скидка 20% на первый визит</div>
+    </div>
+</section>
+
+<section id="services" class="section">
+    <div class="container">
+        <h2 class="section-title">Услуги</h2>
+        <div class="services-grid" id="servicesGrid"></div>
+    </div>
+</section>
+
+<section id="prices" class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Прайс-лист</h2>
+        <div class="price-table">
+            <table id="priceTable"></table>
+        </div>
+        <div class="price-download">
+            <button id="downloadPDF" class="btn btn-secondary">
+                <i class="fas fa-file-pdf"></i> Скачать PDF
+            </button>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="section">
+    <div class="container about-grid">
+        <div class="about-img">
+            <img id="masterPhoto" alt="Фото мастера">
+        </div>
+        <div class="about-text">
+            <h2 id="masterName"></h2>
+            <p class="master-exp" id="masterExp"></p>
+            <p id="masterBio"></p>
+            <div class="certificates" id="certificatesList"></div>
+        </div>
+    </div>
+</section>
+
+<section id="portfolio" class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Портфолио работ</h2>
+        <div class="portfolio-filters">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="manicure">Маникюр</button>
+            <button class="filter-btn" data-filter="pedicure">Педикюр</button>
+            <button class="filter-btn" data-filter="design">Дизайн</button>
+            <button class="filter-btn" data-filter="coating">Покрытие</button>
+        </div>
+        <div class="portfolio-grid" id="portfolioGrid"></div>
+    </div>
+</section>
+
+<section id="blog" class="section">
+    <div class="container">
+        <h2 class="section-title">Акции и полезные статьи</h2>
+        <div class="blog-grid" id="blogGrid"></div>
+    </div>
+</section>
+
+<section id="booking" class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Онлайн-запись</h2>
+        <form id="bookingForm" class="booking-form">
+            <div class="form-group">
+                <label>👤 Имя и фамилия </label>
+                <input type="text" name="name" required placeholder="Анна Иванова">
+            </div>
+            <div class="form-group">
+                <label>📞 Телефон </label>
+                <input type="tel" name="phone" required placeholder="+7 (999) 123-45-67">
+            </div>
+            <div class="form-group">
+                <label>📧 Email </label>
+                <input type="email" name="email" required placeholder="anna@example.com">
+            </div>
+            <div class="form-group">
+                <label>💅 Услуга</label>
+                <select name="service" id="bookingService"></select>
+            </div>
+            <div class="form-group">
+                <label>📅 Дата </label>
+                <input type="date" name="date" id="bookingDate" required>
+                <small>Прием с 8:00 до 20:00</small>
+            </div>
+            <div class="form-group">
+                <label>⏰ Время </label>
+                <select name="time" id="bookingTime" required disabled>
+                    <option value="">Сначала выберите дату</option>
+                </select>
+                <small>Доступные слоты: каждые 20 минут. Между записями перерыв 2 часа</small>
+            </div>
+            <div class="form-group">
+                <label>💬 Комментарий</label>
+                <textarea name="comment" rows="3" placeholder="Пожелания к дизайну..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">✉️ Отправить заявку</button>
+            <p class="form-note">После отправки мастер свяжется с вами</p>
+        </form>
+    </div>
+</section>
+
+<section id="contact" class="section">
+    <div class="container contact-wrapper">
+        <div class="contact-info">
+            <h3>📌 Свяжитесь со мной</h3>
+            <p><i class="fas fa-map-marker-alt"></i> г. Ростов-на-Дону, улица 2-я Краснодарская 169Б, стр.1</p>
+            <p><i class="fas fa-phone"></i> +7 (904) 500-34-72</p>
+            <p><i class="fas fa-envelope"></i> zona9xxx@gmail.com, dazona9xxx@gmail.com, zona9xxx@yandex.ru</p>
+            <p><i class="fas fa-clock"></i> Пн-Пт: 8:00 - 20:00, Сб-Вс: выходные</p>
+            <div class="social-links">
+                <a href="https://t.me/zona9xxx" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://m.vk.com/zona9xxx" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-vk"></i>
+                </a>
+            </div>
+        </div>
+        <div class="contact-map">
+            <div style="height:300px; border-radius:28px; overflow:hidden;">
+                <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A6e6f3b0b5a5a8c1b9a6e1c0c9b6c3c5b6a3d2f1e&width=100%25&height=100%25&lang=ru_RU&scroll=false"></script>
+                <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A6e6f3b0b5a5a8c1b9a6e1c0c9b6c3c5b6a3d2f1e&source=constructor" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <p>© 2026 NailMaster. Все права защищены. 💅</p>
+        <button id="adminBtn" class="admin-foot-btn">
+            <i class="fas fa-shield-alt"></i> Админ
+        </button>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

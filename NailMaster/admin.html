@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель | NailMaster</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-dashboard {
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        .admin-header {
+            background: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .admin-header h1 {
+            font-size: 1.5rem;
+        }
+        .logout-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 24px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .admin-tabs {
+            display: flex;
+            gap: 12px;
+            padding: 20px 30px;
+            background: white;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .tab-btn {
+            padding: 10px 24px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .tab-btn.active {
+            background: #5E1E2B;
+            color: white;
+        }
+        .admin-content {
+            padding: 30px;
+        }
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .add-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 24px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .save-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 24px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .edit-item {
+            background: #f9f9f9;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            align-items: center;
+        }
+        .edit-item input,
+        .edit-item textarea,
+        .edit-item select {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-family: inherit;
+        }
+        .portfolio-admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .portfolio-admin-item {
+            text-align: center;
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 16px;
+        }
+        .portfolio-admin-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        .upload-area {
+            background: #f9f9f9;
+            padding: 24px;
+            border-radius: 16px;
+            margin: 20px 0;
+            border: 2px dashed #ccc;
+            text-align: center;
+        }
+        .master-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .master-form input,
+        .master-form textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+        }
+        .booking-card {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 12px 0;
+            border-radius: 16px;
+            border-left: 4px solid #5E1E2B;
+        }
+        @media (max-width: 768px) {
+            .edit-item {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="admin-dashboard">
+<script>
+    // Проверка авторизации
+    const isLoggedIn = sessionStorage.getItem('admin_logged_in') === 'true';
+    if (!isLoggedIn) {
+        const password = prompt('🔐 Введите пароль администратора:');
+        if (password === 'dadazona') {
+            sessionStorage.setItem('admin_logged_in', 'true');
+        } else {
+            alert('❌ Неверный пароль! Вспоминай!');
+            window.location.href = 'index.html';
+        }
+    }
+
+    // Функция сохранения прайс-листа с обновлением услуг в форме записи
+    function savePrices() {
+        saveToLocalStorage();
+        renderBookingServices();
+        alert('✅ Прайс-лист сохранен!');
+    }
+</script>
+    <div class="admin-header">
+        <h1>📋 Панель управления сайтом</h1>
+        <button id="logoutBtn" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Выйти
+        </button>
+    </div>
+
+    <div class="admin-tabs">
+        <button class="tab-btn active" data-tab="services">🛠 Услуги</button>
+        <button class="tab-btn" data-tab="prices">💰 Цены</button>
+        <button class="tab-btn" data-tab="portfolio">🖼 Портфолио</button>
+        <button class="tab-btn" data-tab="blog">📝 Блог/Акции</button>
+        <button class="tab-btn" data-tab="master">👩‍🎨 О мастере</button>
+        <button class="tab-btn" data-tab="bookings">📅 Заявки</button>
+    </div>
+
+    <div class="admin-content">
+        <div id="servicesTab" class="tab-content active">
+            <h2>Редактирование услуг</h2>
+            <button class="add-btn" onclick="addService()">
+                + Добавить услугу
+            </button>
+            <div id="servicesList"></div>
+            <button class="save-btn" onclick="saveServices()">
+                Сохранить
+            </button>
+        </div>
+
+        <div id="pricesTab" class="tab-content">
+            <h2>Редактирование прайс-листа</h2>
+            <button class="add-btn" onclick="addPrice()">
+                + Добавить позицию
+            </button>
+            <div id="pricesList"></div>
+            <button class="save-btn" onclick="savePrices()">
+                Сохранить
+            </button>
+        </div>
+
+        <div id="portfolioTab" class="tab-content">
+            <h2>Управление портфолио</h2>
+            <div class="upload-area">
+                <input type="file" id="imageUpload" accept="image/*">
+                <select id="categorySelect">
+                    <option value="manicure">Маникюр</option>
+                    <option value="pedicure">Педикюр</option>
+                    <option value="design">Дизайн</option>
+                    <option value="coating">Покрытие</option>
+                </select>
+                <button onclick="uploadImage()">
+                    Загрузить фото
+                </button>
+            </div>
+            <div id="portfolioGrid" class="portfolio-admin-grid"></div>
+            <button class="save-btn" onclick="savePortfolio()">
+                Сохранить
+            </button>
+        </div>
+
+        <div id="blogTab" class="tab-content">
+            <h2>Управление блогом</h2>
+            <button class="add-btn" onclick="addBlogPost()">
+                + Новая запись
+            </button>
+            <div id="blogList"></div>
+            <button class="save-btn" onclick="saveBlog()">
+                Сохранить
+            </button>
+        </div>
+
+        <div id="masterTab" class="tab-content">
+            <h2>Информация о мастере</h2>
+            <div class="master-form">
+                <label>Имя:</label>
+                <input type="text" id="masterName">
+                <label>Опыт/статус:</label>
+                <input type="text" id="masterExp">
+                <label>Биография:</label>
+                <textarea id="masterBio" rows="4"></textarea>
+                <label>Фото (URL):</label>
+                <input type="text" id="masterPhoto">
+                <label>Сертификаты (каждый с новой строки):</label>
+                <textarea id="masterCerts" rows="3"></textarea>
+                <button class="save-btn" onclick="saveMaster()">
+                    Сохранить
+                </button>
+            </div>
+        </div>
+
+        <div id="bookingsTab" class="tab-content">
+            <h2>Заявки на запись</h2>
+            <div id="bookingsList"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
